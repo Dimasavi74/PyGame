@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="15" height="15" tilewidth="30" tileheight="30" infinite="0" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" name="fauna_highland" tilewidth="32" tileheight="32" tilecount="15" columns="3">
-  <image source="../../../../../../Program Files/Tiled/examples/подкачка/terrain/bitmaps/fauna_highland.png" width="100" height="160"/>
+  <image source="fauna_highland.png" width="100" height="160"/>
  </tileset>
  <layer id="1" name="Слой тайлов 1" width="15" height="15">
   <data encoding="base64" compression="zlib">
