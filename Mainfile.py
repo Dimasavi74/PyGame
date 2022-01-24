@@ -1,3 +1,9 @@
+# Нормальное перемещение камеры(мышь)
+# Движение по клеткам(волновой алгаритм, щелчки мыши)
+# Прозрачные картинки
+# Приближение камеры
+# Изменение размеров тайлов, своя карта
+import change as change
 import pygame
 import sys
 import os
@@ -5,12 +11,12 @@ from random import *
 from pytmx import *
 from PIL import Image
 
-
 pygame.init()
-FPS = 30
+FPS = 20
 Speed = 100
 size = width, height = 450, 450
-screen = pygame.display.set_mode(size)
+
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption("Adventure strategy")
 
 
@@ -45,21 +51,28 @@ class Board:
             for j in range(len(y)):
                 if y[j] == 0:
                     pygame.draw.rect(screen, 'white', (
-                    (self.left + j * self.cell_size, self.top + i * self.cell_size), (self.cell_size, self.cell_size)),
+                        (self.left + j * self.cell_size, self.top + i * self.cell_size),
+                        (self.cell_size, self.cell_size)),
                                      1)
 
     def get_cell(self, mouse_pos):
         x = (mouse_pos[0] - self.left) // self.cell_size
         y = (mouse_pos[1] - self.top) // self.cell_size
         if x + 1 > self.width or y + 1 > self.height or x == -1 or y == -1:
-            print(None)
             return None
-        print(x, y)
-        return (y, x)
+        return (x, y)
+
+    def get_coords(self, cell):
+        x = cell[0] * self.cell_size + self.left + self.cell_size / 2
+        y = cell[1] * self.cell_size + self.top + self.cell_size / 2
+        return (x, y)
 
     def change_margin(self, top, left):
         self.top += top
         self.left += left
+
+    def get_board(self):
+        return self.board
 
 
 
@@ -71,40 +84,130 @@ class Worker(pygame.sprite.Sprite):
 
     def __init__(self, *group):
         super().__init__(*group)
-        self.image = Worker.steps3[0]
+        global board
+        self.image = Worker.steps4[0]
+        self.human_board = board.get_board()
+        self.imagename = f"Animations\\Right_Walk\\1.png"
         self.selected = False
-        self.rotation = 'Up_Walk'
+        self.rotation = 'Down_Walk'
+        self.can_go = False
         self.rect = self.image.get_rect()
-        self.rect.x = 150
-        self.rect.y = randrange(height - self.rect[3])
+        self.rect.x = board.get_coords((1, 1))[0]
+#        self.rect.y = randrange(height - self.rect[3])
+        self.rect.y = board.get_coords((1, 1))[1]
+        self.cell_posx = board.get_cell((self.rect.x, 0))[0]
+        self.cell_posy = board.get_cell((0, self.rect.y))[1]
+        self.order_list = [1, 2, 3, 4]
 
     def update(self):
-        # сюда таймер
-        if self.rotation == "Right_Walk":
-            self.rect = self.rect.move(Speed // FPS, 0)
-            self.imagename = f"Animations\\Right_Walk\\{(self.steps1.index(self.image) + 1)}.png"
-            self.image = self.steps1[(self.steps1.index(self.image) + 1) % 4]
-        elif self.rotation == "Left_Walk":
-            self.rect = self.rect.move(-Speed // FPS, 0)
-            self.imagename = f"Animations\\Left_Walk\\{(self.steps2.index(self.image) + 1)}.png"
-            self.image = self.steps2[(self.steps2.index(self.image) + 1) % 4]
-        elif self.rotation == "Up_Walk":
-            self.rect = self.rect.move(0, -Speed // FPS)
-            self.imagename = f"Animations\\Up_Walk\\{(self.steps3.index(self.image) + 1)}.png"
-            self.image = self.steps3[(self.steps3.index(self.image) + 1) % 4]
-        elif self.rotation == "Down_Walk":
-            self.rect = self.rect.move(0, Speed // FPS)
-            self.imagename = f"Animations\\Down_Walk\\{(self.steps2.index(self.image) + 1)}.png"
-            self.image = self.steps4[(self.steps4.index(self.image) + 1) % 4]
-
+        global tile_size
+        if self.can_go:
+            if self.rotation == "Right_Walk":
+                if Speed // FPS + self.rect.x >= tile_size * self.cell_posx + tile_size // 2:
+                    self.rect.x = tile_size * self.cell_posx + tile_size // 2
+                    self.cell_posx += 1
+                    self.direction()
+                self.rect = self.rect.move(Speed // FPS, 0)
+                self.imagename = f"Animations\\Right_Walk\\{(self.steps1.index(self.image) + 1)}.png"
+                self.image = self.steps1[(self.steps1.index(self.image) + 1) % 4]
+            elif self.rotation == "Left_Walk":
+                if Speed // FPS + self.rect.x <= tile_size * self.cell_posx - tile_size // 2:
+                    self.rect.x = tile_size * self.cell_posx - tile_size // 2
+                    self.cell_posx -= 1
+                    self.direction()
+                self.rect = self.rect.move(-Speed // FPS, 0)
+                self.imagename = f"Animations\\Left_Walk\\{(self.steps2.index(self.image) + 1)}.png"
+                self.image = self.steps2[(self.steps2.index(self.image) + 1) % 4]
+            elif self.rotation == "Up_Walk":
+                if Speed // FPS + self.rect.y <= tile_size * self.cell_posy - tile_size // 2:
+                    self.rect.y = tile_size * self.cell_posy - tile_size // 2
+                    self.cell_posy -= 1
+                    self.direction()
+                self.rect = self.rect.move(0, -Speed // FPS)
+                self.imagename = f"Animations\\Up_Walk\\{(self.steps3.index(self.image) + 1)}.png"
+                self.image = self.steps3[(self.steps3.index(self.image) + 1) % 4]
+            elif self.rotation == "Down_Walk":
+                if Speed // FPS + self.rect.y >= tile_size * self.cell_posy + tile_size // 2:
+                    self.rect.y = tile_size * self.cell_posy + tile_size // 2
+                    self.cell_posy += 1
+                    self.direction()
+                self.rect = self.rect.move(0, Speed // FPS)
+                self.imagename = f"Animations\\Down_Walk\\{(self.steps4.index(self.image) + 1)}.png"
+                self.image = self.steps4[(self.steps4.index(self.image) + 1) % 4]
 
     def delselect(self):
         self.selected = False
 
+    def set_board(self, x, y):
+        global board
+        try:
+            x = board.get_cell((x, y))[0]
+            y = board.get_cell((x, y))[1]
+            print(x)
+            print(self.cell_posx)
+            if self.cell_posx > x:
+                if self.cell_posy > y:
+                    self.human_board = [[board.get_board()[y + i][x + j] for j in range(self.cell_posx - x)] for i in
+                                        range(self.cell_posy - y)]
+                    x = 1
+                    y = len(self.human_board)
+                    print(self.human_board)
+                else:
+                    self.human_board = [
+                        [board.get_board()[self.cell_posy + i][x + j] for j in range(self.cell_posx - x)]
+                        for i in range(y - self.cell_posy)]
+                    print(1)
+                    print(self.human_board)
+                    x = 1
+                    y = 1
+                    print(self.human_board)
+            else:
+                if self.cell_posy > y:
+                    self.human_board = [
+                        [board.get_board()[y + i][self.cell_posx + j] for j in range(self.cell_posx - x)]
+                        for i in range(self.cell_posy - y)]
+                    print(1)
+                    print(self.human_board)
+                    x = len(self.human_board[0])
+                    y = len(self.human_board)
+                    print(self.human_board)
+                else:
+                    self.human_board = [
+                        [board.get_board()[self.cell_posy + i][self.cell_posx + j] for j in range(x - self.cell_posx)]
+                        for i in range(y - self.cell_posy)]
+                    print(1)
+                    print(self.human_board)
+                    x = len(self.human_board[0])
+                    y = 1
+                    print(self.human_board)
+            wave_board = self.to_wave_board(x, y, 1, len(self.human_board), len(self.human_board[0]),
+                                            self.human_board)
+            self.human_board = wave_board
+            for el in wave_board:
+                print(el)
+        except Exception:
+            pass
+
+    def to_wave_board(self, x, y, cur, n, m, lab):
+        lab[x][y] = cur
+        if y + 1 < m:
+            if lab[x][y + 1] == 0 or (lab[x][y + 1] != -1 and lab[x][y + 1] > cur):
+                self.to_wave_board(x, y + 1, cur + 1, n, m, lab)
+        if x + 1 < n:
+            if lab[x + 1][y] == 0 or (lab[x + 1][y] != -1 and lab[x + 1][y] > cur):
+                self.to_wave_board(x + 1, y, cur + 1, n, m, lab)
+        if x - 1 >= 0:
+            if lab[x - 1][y] == 0 or (lab[x - 1][y] != -1 and lab[x - 1][y] > cur):
+                self.to_wave_board(x - 1, y, cur + 1, n, m, lab)
+        if y - 1 >= 0:
+            if lab[x][y - 1] == 0 or (lab[x][y - 1] != -1 and lab[x][y - 1] > cur):
+                self.to_wave_board(x, y - 1, cur + 1, n, m, lab)
+        return lab
+
     def checkselect(self, posx, posy):
         im = Image.open(f"data\\{self.imagename}")
         size = im.size
-        return posx >= self.rect.x and posx <= self.rect.x + size[0] and posy >= self.rect.y and posy <= self.rect.y\
+        return posx >= self.rect.x and posx <= self.rect.x + size[0] and posy >= self.rect.y and posy <= self.rect.y \
                + size[1]
 
     def select(self):
@@ -113,18 +216,55 @@ class Worker(pygame.sprite.Sprite):
     def selected(self):
         return self.selected
 
-    def change_rotation(self, x):
+    def set_rotation(self, x):
         self.rotation = x
+
+    def can_go_true(self):
+        self.can_go = True
+
+    def direction(self):
+        for el in self.order_list:
+            if el == 1:
+                try:
+                    if self.human_board[self.cell_posy][self.cell_posx + 1] < self.human_board[self.cell_posy][self.cell_posx] and self.human_board[self.cell_posy][self.cell_posx + 1] > 0:
+                        print(1)
+                        self.rotation = "Right_Walk"
+                        return None
+                except Exception:
+                    pass
+            if el == 2:
+                try:
+                    if self.human_board[self.cell_posy][self.cell_posx - 1] < self.human_board[self.cell_posy][self.cell_posx] and self.human_board[self.cell_posy][self.cell_posx - 1] > 0:
+                        self.rotation = "Left_Walk"
+                        return None
+                except Exception:
+                    pass
+            if el == 3:
+                try:
+                    if self.human_board[self.cell_posy - 1][self.cell_posx] < self.human_board[self.cell_posy][self.cell_posx] and self.human_board[self.cell_posy - 1][self.cell_posx + 1] > 0:
+                        self.rotation = "Up_Walk"
+                        return None
+                except Exception:
+                    pass
+            if el == 4:
+                try:
+                    if self.human_board[self.cell_posy + 1][self.cell_posx] < self.human_board[self.cell_posy][self.cell_posx] and self.human_board[self.cell_posy + 1][self.cell_posx] > 0:
+                        self.rotation = "Down_Walk"
+                        return None
+                except Exception:
+                    pass
+
+
+tile_size = 30
+board = Board(width // tile_size, height // tile_size, tile_size)
 
 
 def main():
-    tile_size = 30
     map = load_pygame(f'maps/some.tmx')
     all_sprites = pygame.sprite.Group()
     for _ in range(2):
         Worker(all_sprites)
     clock = pygame.time.Clock()
-    board = Board(width // tile_size, height // tile_size, tile_size)
     xCam = 0
     yCam = 0
     kCam = 1
@@ -150,11 +290,15 @@ def main():
                 if event.button == 3:
                     for sprite in all_sprites:
                         if sprite.selected:
-                            sprite.select()
-                            continue
-                        sprite.delselect()
-                for i in range(10):
-                    Worker(all_sprites)
+                            try:
+                                coords = board.get_cell((event.pos[0], event.pos[1]))
+                                if board.get_board()[coords[1]][coords[1]] < 0:
+                                    break
+                                sprite.set_board(event.pos[0], event.pos[1])
+                                sprite.direction()
+                                sprite.can_go_true()
+                            except Exception:
+                                pass
             if pygame.key.get_pressed()[pygame.K_a]:
                 xCam += 15
                 for sprite in all_sprites:
