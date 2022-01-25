@@ -19,7 +19,8 @@ Speed = 100
 tile_size = 30
 size = width, height = 450, 450
 
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+#screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Adventure strategy")
 
 
@@ -76,15 +77,15 @@ def main():
     xCam = 0
     yCam = 0
     kCam = 1
-    # board_render = False
+    board_render = False
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            # if event.type == pygame.KEYDOWN:
-            #    if event.key == pygame.K_c:
-            #        board_render = not board_render
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    board_render = not board_render
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     for sprite in all_sprites:
@@ -100,22 +101,22 @@ def main():
                             sprite.set_board(event.pos[0], event.pos[1])
                             sprite.direction()
                             sprite.can_go = True
-            if pygame.key.get_pressed()[pygame.K_a]: # рассматривать зажим клавиши
+            if pygame.key.get_pressed()[pygame.K_d]: # рассматривать зажим клавиши
                 xCam += 15
                 for sprite in all_sprites:
                     sprite.rect.x += 15
                 board.change_margin(0, 15)
-            if pygame.key.get_pressed()[pygame.K_d]:
+            if pygame.key.get_pressed()[pygame.K_a]:
                 xCam -= 15
                 for sprite in all_sprites:
                     sprite.rect.x -= 15
                 board.change_margin(0, -15)
-            if pygame.key.get_pressed()[pygame.K_w]:
+            if pygame.key.get_pressed()[pygame.K_s]:
                 yCam += 15
                 for sprite in all_sprites:
                     sprite.rect.y += 15
                 board.change_margin(15, 0)
-            if pygame.key.get_pressed()[pygame.K_s]:
+            if pygame.key.get_pressed()[pygame.K_w]:
                 yCam -= 15
                 for sprite in all_sprites:
                     sprite.rect.y -= 15
@@ -124,8 +125,8 @@ def main():
             for y in range(height // tile_size):
                 image = map.get_tile_image(x, y, 0)
                 screen.blit(image, (int(tile_size * kCam * x + xCam), int(tile_size * kCam * y + yCam)))
-        # if board_render:
-        board.render(screen)
+        if board_render:
+            board.render(screen)
         all_sprites.draw(screen)
         all_sprites.update()
         clock.tick(FPS)  # переделать смену кадров по таймеру

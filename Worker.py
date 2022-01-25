@@ -20,16 +20,18 @@ def load_image(name):
 
 
 class Worker(pygame.sprite.Sprite):
-    steps1 = [load_image(f"Animations\\Right_Walk\\{i}.png") for i in range(4)]
-    steps2 = [load_image(f"Animations\\Left_Walk\\{i}.png") for i in range(4)]
-    steps3 = [load_image(f"Animations\\Up_Walk\\{i}.png") for i in range(4)]
-    steps4 = [load_image(f"Animations\\Down_Walk\\{i}.png") for i in range(4)]
+    steps = {"Right_Walk": [load_image(f"Animations\\Right_Walk\\{i}.png") for i in range(4)],
+             "Left_Walk": [load_image(f"Animations\\Left_Walk\\{i}.png") for i in range(4)],
+             "Up_Walk": [load_image(f"Animations\\Up_Walk\\{i}.png") for i in range(4)],
+             "Down_Walk": [load_image(f"Animations\\Down_Walk\\{i}.png") for i in range(4)]}
 
     def __init__(self, board, *group):
         super().__init__(*group)
-        self.image = self.steps1[0]
+        self.index = 0
+        self.rotation = "Down_Walk"
+        self.image = self.steps["Down_Walk"][self.index]
         self.imagename = f"Animations\\Right_Walk\\0.png"
-        self.rotation = "Right_Walk"
+        self.rol = [(1, 0, "Up_Walk"), (-1, 0, "Down_Walk"), (0, 1, "Right_Walk"), (0, -1, "Left_Walk")]
 
         self.rect = self.image.get_rect()
         self.human_board = board
@@ -40,6 +42,7 @@ class Worker(pygame.sprite.Sprite):
 
     def update(self):
         global tile_size
+        # обнулять индекс при изменении направления
         if self.can_go:
             if self.rotation == "Right_Walk":
                 if self.rect.x >= tile_size * self.cell_posx:
@@ -47,36 +50,37 @@ class Worker(pygame.sprite.Sprite):
                     self.cell_posx += 1
                     self.direction()
                 self.rect = self.rect.move(Speed // FPS, 0)
-                self.imagename = f"Animations\\Right_Walk\\{(self.steps1.index(self.image) + 1) % 4}.png"
-                self.image = self.steps1[(self.steps1.index(self.image) + 1) % 4]
+                self.imagename = f"Animations\\Right_Walk\\{(self.index + 1) % 4}.png"
+                self.image = self.steps["Right_Walk"][(self.index + 1) % 4]
             elif self.rotation == "Left_Walk":
                 if Speed // FPS + self.rect.x <= tile_size * self.cell_posx - tile_size // 2:
                     self.rect.x = tile_size * self.cell_posx - tile_size // 2
                     self.cell_posx -= 1
                     self.direction()
                 self.rect = self.rect.move(-Speed // FPS, 0)
-                self.imagename = f"Animations\\Left_Walk\\{(self.steps2.index(self.image) + 1) % 4}.png"
-                self.image = self.steps2[(self.steps2.index(self.image) + 1) % 4]
+                self.imagename = f"Animations\\Left_Walk\\{(self.index + 1) % 4}.png"
+                self.image = self.steps["Left_Walk"][(self.index + 1) % 4]
             elif self.rotation == "Up_Walk":
                 if Speed // FPS + self.rect.y <= tile_size * self.cell_posy - tile_size // 2:
                     self.rect.y = tile_size * self.cell_posy - tile_size // 2
                     self.cell_posy -= 1
                     self.direction()
                 self.rect = self.rect.move(0, -Speed // FPS)
-                self.imagename = f"Animations\\Up_Walk\\{(self.steps3.index(self.image) + 1) % 4}.png"
-                self.image = self.steps3[(self.steps3.index(self.image) + 1) % 4]
+                self.imagename = f"Animations\\Up_Walk\\{(self.index + 1) % 4}.png"
+                self.image = self.steps["Up_Walk"][(self.index + 1) % 4]
             elif self.rotation == "Down_Walk":
                 if Speed // FPS + self.rect.y >= tile_size * self.cell_posy + tile_size // 2:
                     self.rect.y = tile_size * self.cell_posy + tile_size // 2
                     self.cell_posy += 1
                     self.direction()
                 self.rect = self.rect.move(0, Speed // FPS)
-                self.imagename = f"Animations\\Down_Walk\\{(self.steps4.index(self.image) + 1) % 4}.png"
-                self.image = self.steps4[(self.steps4.index(self.image) + 1) % 4]
+                self.imagename = f"Animations\\Down_Walk\\{(self.index + 1) % 4}.png"
+                self.image = self.steps["Down_Walk"][(self.index + 1) % 4]
 
     def set_board(self, x, y):
         x, y = self.human_board.get_cell((x, y))
-        self.human_board = self.to_wave_board(x - 10, y - 10, 1, self.human_board.board)
+        print(x, y, self.human_board.board)
+        self.human_board = self.to_wave_board(x, y, 1, self.human_board.board)
         print('зашел')
         for el in self.human_board:
             print(el)
@@ -112,23 +116,21 @@ class Worker(pygame.sprite.Sprite):
         self.rotation = x
 
     def direction(self):
-        pole = self.human_board.board[self.cell_posy][self.cell_posx + 1]
-        nach = self.human_board.board[self.cell_posy][self.cell_posx]
-        if pole < nach and pole > 0:
-            self.rotation = "Right_Walk"
-            self.image = self.steps1[0]
-        elif pole < nach and pole > 0:
-            self.rotation = "Left_Walk"
-            self.image = self.steps2[0]
-        elif pole < nach and pole > 0:
-            self.rotation = "Up_Walk"
-            self.image = self.steps3[0]
-        elif pole < nach and pole > 0:
-            self.rotation = "Down_Walk"
-            self.image = self.steps4[0]
+        # зигзагообразное движение
+        for i, j, rot in self.rol:
+            pole = self.human_board.board[self.cell_posy + i][self.cell_posx + j]
+            if pole > 0:
+                if pole < self.human_board.board[self.cell_posy][self.cell_posx]:
+                    if self.rotation != rot:
+                        self.rotation = rot
+                        self.index = 0
+                    self.image = self.steps[rot][0]
+                    # скидываем в конец списка уже использованное направление
+                    self.rol.remove((i, j, rot))
+                    self.rol.append((i, j, rot))
 
 
-if __name__ == '__main__': # хреньб можно стереть
+if __name__ == '__main__': # можно стереть
     all_sprites = pygame.sprite.Group()
     s = [1, 2]
     for _ in range(1):
