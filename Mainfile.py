@@ -3,7 +3,6 @@
 # Прозрачные картинки
 # Приближение камеры
 # Изменение размеров тайлов, своя карта
-import change as change
 import pygame
 import sys
 import os
@@ -12,6 +11,7 @@ from pytmx import *
 from PIL import Image
 
 pygame.init()
+tile_size = 30
 FPS = 20
 Speed = 100
 size = width, height = 450, 450
@@ -103,14 +103,22 @@ class Worker(pygame.sprite.Sprite):
         global tile_size
         if self.can_go:
             if self.rotation == "Right_Walk":
+                try:
+                    self.steps1.index(self.image)
+                except Exception:
+                    self.image = Worker.steps1[0]
                 if Speed // FPS + self.rect.x >= tile_size * self.cell_posx + tile_size // 2:
                     self.rect.x = tile_size * self.cell_posx + tile_size // 2
                     self.cell_posx += 1
                     self.direction()
                 self.rect = self.rect.move(Speed // FPS, 0)
-                self.imagename = f"Animations\\Right_Walk\\{(self.steps1.index(self.image) + 1)}.png"
                 self.image = self.steps1[(self.steps1.index(self.image) + 1) % 4]
+                self.imagename = f"Animations\\Right_Walk\\{(self.steps1.index(self.image) + 1)}.png"
             elif self.rotation == "Left_Walk":
+                try:
+                    self.steps2.index(self.image)
+                except Exception:
+                    self.image = Worker.steps2[0]
                 if Speed // FPS + self.rect.x <= tile_size * self.cell_posx - tile_size // 2:
                     self.rect.x = tile_size * self.cell_posx - tile_size // 2
                     self.cell_posx -= 1
@@ -119,6 +127,10 @@ class Worker(pygame.sprite.Sprite):
                 self.imagename = f"Animations\\Left_Walk\\{(self.steps2.index(self.image) + 1)}.png"
                 self.image = self.steps2[(self.steps2.index(self.image) + 1) % 4]
             elif self.rotation == "Up_Walk":
+                try:
+                    self.steps3.index(self.image)
+                except Exception:
+                    self.image = Worker.steps3[0]
                 if Speed // FPS + self.rect.y <= tile_size * self.cell_posy - tile_size // 2:
                     self.rect.y = tile_size * self.cell_posy - tile_size // 2
                     self.cell_posy -= 1
@@ -127,6 +139,10 @@ class Worker(pygame.sprite.Sprite):
                 self.imagename = f"Animations\\Up_Walk\\{(self.steps3.index(self.image) + 1)}.png"
                 self.image = self.steps3[(self.steps3.index(self.image) + 1) % 4]
             elif self.rotation == "Down_Walk":
+                try:
+                    self.steps4.index(self.image)
+                except Exception:
+                    self.image = Worker.steps4[0]
                 if Speed // FPS + self.rect.y >= tile_size * self.cell_posy + tile_size // 2:
                     self.rect.y = tile_size * self.cell_posy + tile_size // 2
                     self.cell_posy += 1
@@ -140,68 +156,45 @@ class Worker(pygame.sprite.Sprite):
 
     def set_board(self, x, y):
         global board
-        try:
-            x = board.get_cell((x, y))[0]
-            y = board.get_cell((x, y))[1]
-            print(x)
-            print(self.cell_posx)
-            if self.cell_posx > x:
-                if self.cell_posy > y:
-                    self.human_board = [[board.get_board()[y + i][x + j] for j in range(self.cell_posx - x)] for i in
-                                        range(self.cell_posy - y)]
-                    x = 1
-                    y = len(self.human_board)
-                    print(self.human_board)
-                else:
-                    self.human_board = [
-                        [board.get_board()[self.cell_posy + i][x + j] for j in range(self.cell_posx - x)]
-                        for i in range(y - self.cell_posy)]
-                    print(1)
-                    print(self.human_board)
-                    x = 1
-                    y = 1
-                    print(self.human_board)
-            else:
-                if self.cell_posy > y:
-                    self.human_board = [
-                        [board.get_board()[y + i][self.cell_posx + j] for j in range(self.cell_posx - x)]
-                        for i in range(self.cell_posy - y)]
-                    print(1)
-                    print(self.human_board)
-                    x = len(self.human_board[0])
-                    y = len(self.human_board)
-                    print(self.human_board)
-                else:
-                    self.human_board = [
-                        [board.get_board()[self.cell_posy + i][self.cell_posx + j] for j in range(x - self.cell_posx)]
-                        for i in range(y - self.cell_posy)]
-                    print(1)
-                    print(self.human_board)
-                    x = len(self.human_board[0])
-                    y = 1
-                    print(self.human_board)
-            wave_board = self.to_wave_board(x, y, 1, len(self.human_board), len(self.human_board[0]),
-                                            self.human_board)
-            self.human_board = wave_board
-            for el in wave_board:
-                print(el)
-        except Exception:
-            pass
+        print(1)
+        self.a = 0
+        x = board.get_cell((x, y))[0]
+        y = board.get_cell((x, y))[1]
+        self.human_board = board.get_board()
+        wave_board = self.to_wave_board(y + 1, x + 1, self.human_board)
+        self.human_board = wave_board
 
-    def to_wave_board(self, x, y, cur, n, m, lab):
-        lab[x][y] = cur
-        if y + 1 < m:
-            if lab[x][y + 1] == 0 or (lab[x][y + 1] != -1 and lab[x][y + 1] > cur):
-                self.to_wave_board(x, y + 1, cur + 1, n, m, lab)
-        if x + 1 < n:
-            if lab[x + 1][y] == 0 or (lab[x + 1][y] != -1 and lab[x + 1][y] > cur):
-                self.to_wave_board(x + 1, y, cur + 1, n, m, lab)
-        if x - 1 >= 0:
-            if lab[x - 1][y] == 0 or (lab[x - 1][y] != -1 and lab[x - 1][y] > cur):
-                self.to_wave_board(x - 1, y, cur + 1, n, m, lab)
-        if y - 1 >= 0:
-            if lab[x][y - 1] == 0 or (lab[x][y - 1] != -1 and lab[x][y - 1] > cur):
-                self.to_wave_board(x, y - 1, cur + 1, n, m, lab)
+    def to_wave_board(self, x, y, lab):
+        sp = [(x, y)]
+        cur = 0
+        while sp != []:
+            cur += 1
+            sp1 = []
+            for el in sp:
+                point = lab[el[1]][el[0]]
+                if point == 0:
+                    lab[el[1]][el[0]] = cur
+                try:
+                    if lab[el[1] + 1][el[0]] == 0:
+                        sp1.append((el[0], el[1] + 1))
+                except Exception:
+                    pass
+                try:
+                    if el[1] - 1 > -1 and lab[el[1] - 1][el[0]] == 0:
+                        sp1.append((el[0], el[1] - 1))
+                except Exception:
+                    pass
+                try:
+                    if lab[el[1]][el[0] + 1] == 0:
+                        sp1.append((el[0] + 1, el[1]))
+                except Exception:
+                    pass
+                try:
+                    if el[0] - 1 > -1 and lab[el[1]][el[0] - 1] == 0:
+                        sp1.append((el[0] - 1, el[1]))
+                except Exception:
+                    pass
+            sp = list(set(sp1))
         return lab
 
     def checkselect(self, posx, posy):
@@ -227,8 +220,9 @@ class Worker(pygame.sprite.Sprite):
             if el == 1:
                 try:
                     if self.human_board[self.cell_posy][self.cell_posx + 1] < self.human_board[self.cell_posy][self.cell_posx] and self.human_board[self.cell_posy][self.cell_posx + 1] > 0:
-                        print(1)
                         self.rotation = "Right_Walk"
+                        self.order_list.remove(1)
+                        self.order_list.append(1)
                         return None
                 except Exception:
                     pass
@@ -236,6 +230,8 @@ class Worker(pygame.sprite.Sprite):
                 try:
                     if self.human_board[self.cell_posy][self.cell_posx - 1] < self.human_board[self.cell_posy][self.cell_posx] and self.human_board[self.cell_posy][self.cell_posx - 1] > 0:
                         self.rotation = "Left_Walk"
+                        self.order_list.remove(2)
+                        self.order_list.append(2)
                         return None
                 except Exception:
                     pass
@@ -243,6 +239,8 @@ class Worker(pygame.sprite.Sprite):
                 try:
                     if self.human_board[self.cell_posy - 1][self.cell_posx] < self.human_board[self.cell_posy][self.cell_posx] and self.human_board[self.cell_posy - 1][self.cell_posx + 1] > 0:
                         self.rotation = "Up_Walk"
+                        self.order_list.remove(3)
+                        self.order_list.append(3)
                         return None
                 except Exception:
                     pass
@@ -250,19 +248,20 @@ class Worker(pygame.sprite.Sprite):
                 try:
                     if self.human_board[self.cell_posy + 1][self.cell_posx] < self.human_board[self.cell_posy][self.cell_posx] and self.human_board[self.cell_posy + 1][self.cell_posx] > 0:
                         self.rotation = "Down_Walk"
+                        self.order_list.remove(4)
+                        self.order_list.append(4)
                         return None
                 except Exception:
                     pass
 
 
-tile_size = 30
-board = Board(width // tile_size, height // tile_size, tile_size)
 
+board = Board(width // tile_size, height // tile_size, tile_size)
 
 def main():
     map = load_pygame(f'maps/some.tmx')
     all_sprites = pygame.sprite.Group()
-    for _ in range(2):
+    for _ in range(1):
         Worker(all_sprites)
     clock = pygame.time.Clock()
     xCam = 0
@@ -290,15 +289,12 @@ def main():
                 if event.button == 3:
                     for sprite in all_sprites:
                         if sprite.selected:
-                            try:
-                                coords = board.get_cell((event.pos[0], event.pos[1]))
-                                if board.get_board()[coords[1]][coords[1]] < 0:
-                                    break
-                                sprite.set_board(event.pos[0], event.pos[1])
-                                sprite.direction()
-                                sprite.can_go_true()
-                            except Exception:
-                                pass
+                            coords = board.get_cell((event.pos[0], event.pos[1]))
+                            if board.get_board()[coords[1]][coords[1]] < 0:
+                                break
+                            sprite.set_board(event.pos[0], event.pos[1])
+                            sprite.direction()
+                            sprite.can_go_true()
             if pygame.key.get_pressed()[pygame.K_a]:
                 xCam += 15
                 for sprite in all_sprites:
