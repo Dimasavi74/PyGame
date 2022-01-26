@@ -82,21 +82,21 @@ class Worker(pygame.sprite.Sprite):
     steps3 = [load_image(f"Animations\\Up_Walk\\{i}.png") for i in range(1, 5)]
     steps4 = [load_image(f"Animations\\Down_Walk\\{i}.png") for i in range(1, 5)]
 
-    def __init__(self, *group):
+    def __init__(self, x, y, *group):
         super().__init__(*group)
         global board
         self.image = Worker.steps4[0]
-        self.human_board = board.get_board()
+        self.human_board = board.get_board()[:]
         self.imagename = f"Animations\\Right_Walk\\1.png"
         self.selected = False
         self.rotation = 'Down_Walk'
         self.can_go = False
         self.rect = self.image.get_rect()
-        self.rect.x = board.get_coords((1, 1))[0]
+        self.rect.x = board.get_coords((x, 0))[0]
 #        self.rect.y = randrange(height - self.rect[3])
-        self.rect.y = board.get_coords((1, 1))[1]
-        self.cell_posx = board.get_cell((self.rect.x, 0))[0]
-        self.cell_posy = board.get_cell((0, self.rect.y))[1]
+        self.rect.y = board.get_coords((0, y))[1]
+        self.cell_posx = x
+        self.cell_posy = y
         self.order_list = [1, 2, 3, 4]
 
     def update(self):
@@ -160,9 +160,14 @@ class Worker(pygame.sprite.Sprite):
         self.a = 0
         x = board.get_cell((x, y))[0]
         y = board.get_cell((x, y))[1]
-        self.human_board = board.get_board()
-        wave_board = self.to_wave_board(y + 1, x + 1, self.human_board)
+        self.human_board = board.get_board()[:]
+        for el in self.human_board:
+            print(el)
+        wave_board = self.to_wave_board(y, x, self.human_board)
         self.human_board = wave_board
+        print()
+        for el in self.human_board:
+            print(el)
 
     def to_wave_board(self, x, y, lab):
         sp = [(x, y)]
@@ -216,6 +221,8 @@ class Worker(pygame.sprite.Sprite):
         self.can_go = True
 
     def direction(self):
+        if self.human_board[self.cell_posy][self.cell_posx] == 1:
+            self.can_go = False
         for el in self.order_list:
             if el == 1:
                 try:
@@ -261,8 +268,7 @@ board = Board(width // tile_size, height // tile_size, tile_size)
 def main():
     map = load_pygame(f'maps/some.tmx')
     all_sprites = pygame.sprite.Group()
-    for _ in range(1):
-        Worker(all_sprites)
+    Worker(2, 3, all_sprites)
     clock = pygame.time.Clock()
     xCam = 0
     yCam = 0
@@ -292,7 +298,7 @@ def main():
                             coords = board.get_cell((event.pos[0], event.pos[1]))
                             if board.get_board()[coords[1]][coords[1]] < 0:
                                 break
-                            sprite.set_board(event.pos[0], event.pos[1])
+                            sprite.set_board(event.pos[1], event.pos[0])
                             sprite.direction()
                             sprite.can_go_true()
             if pygame.key.get_pressed()[pygame.K_a]:
