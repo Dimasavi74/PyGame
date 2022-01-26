@@ -15,7 +15,9 @@ def main():
     rdl = list(map(int, input().split()))
     x2 = rdl[0]
     y2 = rdl[1]
-    finalout = voln(x1, y1, 1, len(lab), len(lab[0]), lab)
+    for el in [[0] * (450 // 30) for _ in range(450 // 30)]:
+        print(el)
+    finalout = voln(7, 6, 1, 13, 13, [[0] * 15 for _ in range(15)])
     for el in finalout:
         print(el)
 
