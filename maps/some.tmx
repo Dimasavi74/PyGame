@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="15" height="15" tilewidth="30" tileheight="30" infinite="0" nextlayerid="2" nextobjectid="1">
- <tileset firstgid="1" name="fauna_highland" tilewidth="32" tileheight="32" tilecount="15" columns="3">
-  <image source="fauna_highland.png" width="100" height="160"/>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="20" tileheight="20" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="mountain2sand_flat" tilewidth="20" tileheight="20" tilecount="21" columns="3">
+  <image source="mountain2sand_flat.png" width="60" height="140"/>
  </tileset>
- <layer id="1" name="Слой тайлов 1" width="15" height="15">
+ <layer id="1" name="Слой тайлов 1" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYBzFVMUsQMw6AHrZgZiDzn7lo0AfuXqHGwYA72cBJA==
+   eJxjZGBgYBzFo3gUj+JRPIpJxADrnAGR
   </data>
  </layer>
 </map>

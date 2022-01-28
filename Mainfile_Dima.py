@@ -9,14 +9,15 @@ import os
 from random import *
 from pytmx import *
 from PIL import Image
+import copy
 
 pygame.init()
-tile_size = 30
+tile_size = 20
 FPS = 20
 Speed = 100
-size = width, height = 450, 450
+size = width, height = 400, 400
 
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((width + 50, height + 50))
 pygame.display.set_caption("Adventure strategy")
 
 
@@ -25,7 +26,9 @@ def load_image(name):
     if not os.path.isfile(fullname):
         print(f"Файл '{fullname}' не найден")
         sys.exit()
-    return pygame.image.load(fullname)
+    im = pygame.image.load(fullname)
+    im.set_colorkey((0, 0, 0))
+    return im
 
 
 class Board:
@@ -65,32 +68,33 @@ class Board:
     def get_coords(self, cell):
         x = cell[0] * self.cell_size + self.left + self.cell_size / 2
         y = cell[1] * self.cell_size + self.top + self.cell_size / 2
-        return (x, y)
+        return x, y
 
     def change_margin(self, top, left):
         self.top += top
         self.left += left
 
     def get_board(self):
-        return self.board
+        return copy.deepcopy(self.board)
 
 
 
 class Worker(pygame.sprite.Sprite):
-    steps1 = [load_image(f"Animations\\Right_Walk\\{i}.png") for i in range(1, 5)]
-    steps2 = [load_image(f"Animations\\Left_Walk\\{i}.png") for i in range(1, 5)]
-    steps3 = [load_image(f"Animations\\Up_Walk\\{i}.png") for i in range(1, 5)]
-    steps4 = [load_image(f"Animations\\Down_Walk\\{i}.png") for i in range(1, 5)]
+    steps1 = [load_image(f"Animations\\Right_Walk\\{i}.png") for i in range(4)]
+    steps2 = [load_image(f"Animations\\Left_Walk\\{i}.png") for i in range(4)]
+    steps3 = [load_image(f"Animations\\Up_Walk\\{i}.png") for i in range(4)]
+    steps4 = [load_image(f"Animations\\Down_Walk\\{i}.png") for i in range(4)]
 
     def __init__(self, x, y, *group):
         super().__init__(*group)
         global board
-        self.image = Worker.steps4[0]
-        self.human_board = board.get_board()[:]
-        self.imagename = f"Animations\\Right_Walk\\1.png"
+        self.image = Worker.steps3[0]
+        self.human_board = board
+        self.imagename = f"Animations\\Up_Walk\\1.png"
         self.selected = False
-        self.rotation = 'Down_Walk'
+        self.rotation = 'Up_Walk'
         self.can_go = False
+
         self.rect = self.image.get_rect()
         self.rect.x = board.get_coords((x, 0))[0]
 #        self.rect.y = randrange(height - self.rect[3])
@@ -154,20 +158,14 @@ class Worker(pygame.sprite.Sprite):
     def delselect(self):
         self.selected = False
 
-    def set_board(self, x, y):
+    def set_board(self, x, y): # 1 0
         global board
-        print(1)
         self.a = 0
         x = board.get_cell((x, y))[0]
         y = board.get_cell((x, y))[1]
-        self.human_board = board.get_board()[:]
-        for el in self.human_board:
-            print(el)
+        self.human_board = board.get_board()
         wave_board = self.to_wave_board(y, x, self.human_board)
         self.human_board = wave_board
-        print()
-        for el in self.human_board:
-            print(el)
 
     def to_wave_board(self, x, y, lab):
         sp = [(x, y)]
@@ -230,7 +228,7 @@ class Worker(pygame.sprite.Sprite):
                         self.rotation = "Right_Walk"
                         self.order_list.remove(1)
                         self.order_list.append(1)
-                        return None
+                        break
                 except Exception:
                     pass
             if el == 2:
@@ -239,16 +237,16 @@ class Worker(pygame.sprite.Sprite):
                         self.rotation = "Left_Walk"
                         self.order_list.remove(2)
                         self.order_list.append(2)
-                        return None
+                        break
                 except Exception:
                     pass
             if el == 3:
                 try:
-                    if self.human_board[self.cell_posy - 1][self.cell_posx] < self.human_board[self.cell_posy][self.cell_posx] and self.human_board[self.cell_posy - 1][self.cell_posx + 1] > 0:
+                    if self.human_board[self.cell_posy - 1][self.cell_posx] < self.human_board[self.cell_posy][self.cell_posx] and self.human_board[self.cell_posy - 1][self.cell_posx] > 0:
                         self.rotation = "Up_Walk"
                         self.order_list.remove(3)
                         self.order_list.append(3)
-                        return None
+                        break
                 except Exception:
                     pass
             if el == 4:
@@ -257,7 +255,7 @@ class Worker(pygame.sprite.Sprite):
                         self.rotation = "Down_Walk"
                         self.order_list.remove(4)
                         self.order_list.append(4)
-                        return None
+                        break
                 except Exception:
                     pass
 
@@ -268,7 +266,7 @@ board = Board(width // tile_size, height // tile_size, tile_size)
 def main():
     map = load_pygame(f'maps/some.tmx')
     all_sprites = pygame.sprite.Group()
-    Worker(2, 3, all_sprites)
+    Worker(1, 1, all_sprites)
     clock = pygame.time.Clock()
     xCam = 0
     yCam = 0
@@ -322,7 +320,6 @@ def main():
                     sprite.rect.y -= 15
                 board.change_margin(-15, 0)
         screen.fill((255, 255, 255))
-
         for x in range(width // tile_size):
             for y in range(height // tile_size):
                 image = map.get_tile_image(x, y, 0)
