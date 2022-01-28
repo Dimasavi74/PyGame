@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eacc7187-3ccc-4c4a-9dc1-5c8f619eacf6" name="Changes" comment="">
+    <list default="true" id="eacc7187-3ccc-4c4a-9dc1-5c8f619eacf6" name="Changes" comment="переделки&#10;баги из за разных картинок&#10;в моём коде начинает как то непраивльно ходит, а так ходит также)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mainfile.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk/0.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Down_Walk/0.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Down_Walk/1.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Down_Walk/2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Down_Walk/3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/im.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/old/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/old/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/old/3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/old/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/old/5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/old/6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/old/7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/old/8.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/фазы.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/fauna_highland.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/some.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/maps/some.tmx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk/0.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Left_Walk/0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Left_Walk/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Left_Walk/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Left_Walk/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk/4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk/0.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Right_Walk/0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Right_Walk/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Right_Walk/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Right_Walk/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk/4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk/0.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Up_Walk/0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Up_Walk/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Up_Walk/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Up_Walk/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk/4.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,6 +184,14 @@
       <option name="presentableId" value="Default" />
       <updated>1643222881519</updated>
     </task>
+    <task id="LOCAL-00001" summary="переделки&#10;баги из за разных картинок&#10;в моём коде начинает как то непраивльно ходит, а так ходит также)">
+      <created>1643388272215</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1643388272215</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -211,5 +216,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="переделки&#10;баги из за разных картинок&#10;в моём коде начинает как то непраивльно ходит, а так ходит также)" />
+    <option name="LAST_COMMIT_MESSAGE" value="переделки&#10;баги из за разных картинок&#10;в моём коде начинает как то непраивльно ходит, а так ходит также)" />
   </component>
 </project>
