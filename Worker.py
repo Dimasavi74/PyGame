@@ -32,51 +32,51 @@ class Worker(pygame.sprite.Sprite):
         self.index = 0
         self.rotation = "Down_Walk"
         self.image = self.steps["Down_Walk"][self.index]
-        self.imagename = f"Animations\\Right_Walk\\0.png"
+        self.imagename = f"Animations\\Down_Walk\\0.png"
+
         self.order_list = [("Right_Walk", 0, 1), ("Left_Walk", 0, -1), ("Up_Walk", -1, 0), ("Down_Walk", 1, 0)]
         self.rect = self.image.get_rect()
+        self.cell_posx, self.cell_posy = 1, 1 # здесь задавать координаты!
+
+        self.rect.x, self.rect.y = board.get_coords((self.cell_posx, self.cell_posy))
+        self.rect.x += self.set_centre(self.rect[2], tile_size)
+        self.rect.y += self.set_centre(self.rect[3], tile_size)
+
         self.human_board = board
-        self.selected = False # выбран по умолчанию
+        self.selected = False
         self.can_go = False
-        self.rect.x, self.rect.y = board.get_coords((1, 1)) # здесь задавать координаты!
-        self.cell_posx, self.cell_posy = board.get_cell((self.rect.x, 0))
+
+    def set_centre(self, size, cell_size):
+        if cell_size >= size:
+            return (cell_size - size) // 2
+        return -((size - cell_size) + 2)
+
+    def move_func(self, move):
+        if self.rotation == "Right_Walk":
+            self.rect = self.rect.move((move, 0))
+        elif self.rotation == "Left_Walk":
+            self.rect = self.rect.move((-move, 0))
+        elif self.rotation == "Up_Walk":
+            self.rect = self.rect.move((0, -move))
+        elif self.rotation == "Down_Walk":
+            self.rect = self.rect.move((0, move))
+
 
     def update(self):
-        global tile_size
-        # обнулять индекс при изменении направления
         if self.can_go:
-            if self.rotation == "Right_Walk":
-                if self.rect.x >= tile_size * self.cell_posx:
-                    self.rect.x = tile_size * self.cell_posx
-                    self.cell_posx += 1
-                    self.direction()
-                self.rect = self.rect.move(Speed // FPS, 0)
-                self.imagename = f"Animations\\Right_Walk\\{(self.index + 1) % 4}.png"
-                self.image = self.steps["Right_Walk"][(self.index + 1) % 4]
-            elif self.rotation == "Left_Walk":
-                if Speed // FPS + self.rect.x <= tile_size * self.cell_posx - tile_size // 2:
-                    self.rect.x = tile_size * self.cell_posx - tile_size // 2
-                    self.cell_posx -= 1
-                    self.direction()
-                self.rect = self.rect.move(-Speed // FPS, 0)
-                self.imagename = f"Animations\\Left_Walk\\{(self.index + 1) % 4}.png"
-                self.image = self.steps["Left_Walk"][(self.index + 1) % 4]
-            elif self.rotation == "Up_Walk":
-                if Speed // FPS + self.rect.y <= tile_size * self.cell_posy - tile_size // 2:
-                    self.rect.y = tile_size * self.cell_posy - tile_size // 2
-                    self.cell_posy -= 1
-                    self.direction()
-                self.rect = self.rect.move(0, -Speed // FPS)
-                self.imagename = f"Animations\\Up_Walk\\{(self.index + 1) % 4}.png"
-                self.image = self.steps["Up_Walk"][(self.index + 1) % 4]
-            elif self.rotation == "Down_Walk":
-                if Speed // FPS + self.rect.y >= tile_size * self.cell_posy + tile_size // 2:
-                    self.rect.y = tile_size * self.cell_posy + tile_size // 2
-                    self.cell_posy += 1
-                    self.direction()
-                self.rect = self.rect.move(0, Speed // FPS)
-                self.imagename = f"Animations\\Down_Walk\\{(self.index + 1) % 4}.png"
-                self.image = self.steps["Down_Walk"][(self.index + 1) % 4]
+            if self.index == 4:
+                self.move_func(self.ost)
+                self.direction()
+                self.ost = tile_size
+                self.index = 1
+                self.image = Worker.steps[self.rotation][0]
+                # так и должно быть))
+            else:
+                move = self.ost // (4 - (self.index - 1))  # более точный расчёт, чтобы точно проходил размер тайла
+                self.move_func(move)
+                self.ost -= move
+                self.image = Worker.steps[self.rotation][self.index]
+                self.index += 1
 
     def set_board(self, x, y):
         x, y = self.human_board.get_cell((x, y))
@@ -115,14 +115,8 @@ class Worker(pygame.sprite.Sprite):
             sp = list(set(sp1))
         return lab
 
-    def checkselect(self, posx, posy):
-        im = Image.open(f"data\\{self.imagename}")
-        size = im.size
-        if posx >= self.rect.x and posx <= self.rect.x + size[0] and posy >= self.rect.y and posy <= self.rect.y + size[1] and not self.selected:
-            self.selected = True
-        else:
-            if self.selected:
-                self.selected = False
+    def checkselect(self, x, y):
+        return self.rect[2] + self.rect[0] >= x >= self.rect[0] and self.rect[3] + self.rect[1] >= y >= self.rect[1]
 
     def set_rotation(self, x):
         self.rotation = x
@@ -139,7 +133,6 @@ class Worker(pygame.sprite.Sprite):
                     self.image = self.steps[rot][(self.index + 1) % 4]
                 self.order_list.remove((rot, i, j))
                 self.order_list.append((rot, i, j))
-                print(self.rotation)
                 break
 
 

@@ -51,8 +51,8 @@ class Board:
             return x, y
 
     def get_coords(self, cell):
-        x = cell[0] * tile_size + self.left + tile_size / 2
-        y = cell[1] * tile_size + self.top + tile_size / 2
+        x = cell[0] * tile_size + self.left
+        y = cell[1] * tile_size + self.top
         return x, y
 
     def change_margin(self, top, left):
