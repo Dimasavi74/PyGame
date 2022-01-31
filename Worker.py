@@ -1,4 +1,3 @@
-import change as change
 import pygame
 import sys
 import os

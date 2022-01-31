@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="20" tileheight="20" nextobjectid="1">
+ <tileset firstgid="1" name="mountain2sand_flat" tilewidth="20" tileheight="20" tilecount="21" columns="3">
+  <image source="mountain2sand_flat.png" width="60" height="140"/>
+ </tileset>
+ <tileset firstgid="22" source="land1.tsx"/>
+ <layer name="Слой тайлов 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2dFN5EAQBNAlCYKAMOCXMPjbVCAMyIpYYCVGMtYuHnu6XdXl+mhZHL7TXb2dqRnu7e50eluY94530O+9njTm4255PjveQbyHzi5j2udradjfQ+cYuT4+O4b1PXR+GeuDuRfcH/he6HkPnVvm+mDuBfcHRy+4Pzh7wf1Roz9UO4T9c+/1gf/cr3kPnV/G+mA+N/l8xXFuWnoPnVvm+mDuBfcHRy+4Pzh7wf1Roz9UO4S9F9wfHL1w5P5g/tzP96j707pB56u2PkYsKpqwn5tGLaqZMJ6botZFRRP2/oiyqGLC3h9H82Dvj6N5sPfH0TzcH1zj/uCaqvfuNo+T3/sw8OegHdDrY9SiOVzz2OqCtmjro9q9+5L3xaE9l369kknFe/c891vPintXxXNTtgfSpOK5Sdmj4r1b2aPivVvZo1p/9Di0Z8VOr9QfLeOnn3nueI6YqKyP6J8H9q6FPfawPZzY7t3sHtkmTPfuKh6ZJkz37vlEOkR7ZJmwnJuuWWR4sJugz03Refd4MO9byHv3ng5Z+9mtXM8Lud/6Pvrejc7/2nOLxzzfrV+j+oMh94j1cZ7lOfpE98fSvtV7F+99RrtEe7z8Zhn1jPZg3aemHpGD8mDIn92jzcjXCn2+dr+K9pjPPO8136+4T432ebbHyKz99/T+zJx131Lz+G/tZOS95K+2Pr6CPLL2szYRf79oiyyPSJMMD1aLTI8oE3Rf72mR7RFhEn0/Z7bI8Mjs/bUdP7I/Zeeu4NFM9ugKe8R3CvO+ZA972MMe9tg2I2fhbA+UBdpjq8mt3CM8kBYMHltNWt5zj+mzmgWLx8jeNb1zPxXdoxg8emdrvuy528Me9rCHPexhD3ugJvL/ftFZq3hEmKBzVvMYMUFnrOqxxQSdr5rH2kHnaQ8NBzUPFRt0djbQ9FBxQednB00PFR90bkfPX9VDxQWdnx00PVRs0NnZQNNDxQWdnx00PVR80LkdPX9VDxUXdH520PRQsUFnZ4O/8w0GQiFJ
+  </data>
+ </layer>
+</map>

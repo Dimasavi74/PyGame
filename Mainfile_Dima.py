@@ -13,11 +13,12 @@ import copy
 
 pygame.init()
 tile_size = 20
-FPS = 20
+FPS = 15
 Speed = 100
-size = width, height = 400, 400
+Bsize = 100
+size = width, height = 1200, 800
 
-screen = pygame.display.set_mode((width + 50, height + 50))
+screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Adventure strategy")
 
 
@@ -27,15 +28,42 @@ def load_image(name):
         print(f"Файл '{fullname}' не найден")
         sys.exit()
     im = pygame.image.load(fullname)
-    im.set_colorkey((0, 0, 0))
+    im.set_colorkey((100, 100, 100))
     return im
 
+class Button(pygame.sprite.Sprite):
+    def __init__(self, x, y, image, *group):
+        super().__init__(*group)
+        self.image = load_image(image)
+        self.imagename = image
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = x, y
+
+    def checkselect(self, posx, posy):
+        im = Image.open(f"data\\{self.imagename}")
+        size = im.size
+        return posx >= self.rect.x and posx <= self.rect.x + size[0] and posy >= self.rect.y and posy <= self.rect.y \
+               + size[1]
+
+class Build_button(Button):
+    def __init__(self, x, y, image, *group):
+        super().__init__(x, y, image, *group)
+        self.build_menu = False
+
+    def activate(self, group):
+        if self.build_menu:
+            for el in group:
+                el.rect.y = 800
+        else:
+            for el in group:
+                el.rect.y = 600
+        self.build_menu = not self.build_menu
 
 class Board:
     def __init__(self, width, height, size, top=0, left=0):
-        self.width = width
-        self.height = height
-        self.board = [[0] * width for _ in range(height)]
+        self.width = Bsize * size
+        self.height = Bsize * size
+        self.board = [[0] * Bsize for _ in range(Bsize)]
         self.left = left
         self.top = top
         self.cell_size = size
@@ -77,6 +105,19 @@ class Board:
     def get_board(self):
         return copy.deepcopy(self.board)
 
+class Building(pygame.sprite.Sprite):
+    def __init__(self, x, y, image, *group):
+        super().__init__(*group)
+        global board, tile_size
+        self.imagename = image
+        self.image = load_image(self.imagename)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = board.get_coords((x, y))
+
+
+    def update(self):
+        pass
+
 
 
 class Worker(pygame.sprite.Sprite):
@@ -87,7 +128,7 @@ class Worker(pygame.sprite.Sprite):
 
     def __init__(self, x, y, *group):
         super().__init__(*group)
-        global board
+        global board, tile_size
         self.image = Worker.steps3[0]
         self.human_board = board
         self.imagename = f"Animations\\Up_Walk\\1.png"
@@ -96,63 +137,63 @@ class Worker(pygame.sprite.Sprite):
         self.can_go = False
 
         self.rect = self.image.get_rect()
-        self.rect.x = board.get_coords((x, 0))[0]
+        self.rect.x = board.get_coords((x, 0))[0] + tile_size * 0.5
 #        self.rect.y = randrange(height - self.rect[3])
-        self.rect.y = board.get_coords((0, y))[1]
+        self.rect.y = board.get_coords((0, y))[1] + tile_size * 0.5
         self.cell_posx = x
         self.cell_posy = y
         self.order_list = [1, 2, 3, 4]
 
     def update(self):
-        global tile_size
+        global tile_size, xCam, yCam
         if self.can_go:
             if self.rotation == "Right_Walk":
                 try:
                     self.steps1.index(self.image)
                 except Exception:
                     self.image = Worker.steps1[0]
-                if Speed // FPS + self.rect.x >= tile_size * self.cell_posx + tile_size // 2:
-                    self.rect.x = tile_size * self.cell_posx + tile_size // 2
+                if Speed // FPS + self.rect.x >= tile_size * self.cell_posx + tile_size // 2 + xCam:
+                    self.rect.x = tile_size * self.cell_posx + tile_size // 2 + xCam
                     self.cell_posx += 1
                     self.direction()
                 self.rect = self.rect.move(Speed // FPS, 0)
                 self.image = self.steps1[(self.steps1.index(self.image) + 1) % 4]
-                self.imagename = f"Animations\\Right_Walk\\{(self.steps1.index(self.image) + 1)}.png"
+                self.imagename = f"Animations\\Right_Walk\\{(self.steps1.index(self.image))}.png"
             elif self.rotation == "Left_Walk":
                 try:
                     self.steps2.index(self.image)
                 except Exception:
                     self.image = Worker.steps2[0]
-                if Speed // FPS + self.rect.x <= tile_size * self.cell_posx - tile_size // 2:
-                    self.rect.x = tile_size * self.cell_posx - tile_size // 2
+                if Speed // FPS + self.rect.x <= tile_size * self.cell_posx - tile_size // 2 + xCam:
+                    self.rect.x = tile_size * self.cell_posx - tile_size // 2 + xCam
                     self.cell_posx -= 1
                     self.direction()
                 self.rect = self.rect.move(-Speed // FPS, 0)
-                self.imagename = f"Animations\\Left_Walk\\{(self.steps2.index(self.image) + 1)}.png"
+                self.imagename = f"Animations\\Left_Walk\\{(self.steps2.index(self.image))}.png"
                 self.image = self.steps2[(self.steps2.index(self.image) + 1) % 4]
             elif self.rotation == "Up_Walk":
                 try:
                     self.steps3.index(self.image)
                 except Exception:
                     self.image = Worker.steps3[0]
-                if Speed // FPS + self.rect.y <= tile_size * self.cell_posy - tile_size // 2:
-                    self.rect.y = tile_size * self.cell_posy - tile_size // 2
+                if Speed // FPS + self.rect.y <= tile_size * self.cell_posy - tile_size // 2 + yCam:
+                    self.rect.y = tile_size * self.cell_posy - tile_size // 2 + yCam
                     self.cell_posy -= 1
                     self.direction()
                 self.rect = self.rect.move(0, -Speed // FPS)
-                self.imagename = f"Animations\\Up_Walk\\{(self.steps3.index(self.image) + 1)}.png"
+                self.imagename = f"Animations\\Up_Walk\\{(self.steps3.index(self.image))}.png"
                 self.image = self.steps3[(self.steps3.index(self.image) + 1) % 4]
             elif self.rotation == "Down_Walk":
                 try:
                     self.steps4.index(self.image)
                 except Exception:
                     self.image = Worker.steps4[0]
-                if Speed // FPS + self.rect.y >= tile_size * self.cell_posy + tile_size // 2:
-                    self.rect.y = tile_size * self.cell_posy + tile_size // 2
+                if Speed // FPS + self.rect.y >= tile_size * self.cell_posy + tile_size // 2 + yCam:
+                    self.rect.y = tile_size * self.cell_posy + tile_size // 2 + yCam
                     self.cell_posy += 1
                     self.direction()
                 self.rect = self.rect.move(0, Speed // FPS)
-                self.imagename = f"Animations\\Down_Walk\\{(self.steps4.index(self.image) + 1)}.png"
+                self.imagename = f"Animations\\Down_Walk\\{(self.steps4.index(self.image))}.png"
                 self.image = self.steps4[(self.steps4.index(self.image) + 1) % 4]
 
     def delselect(self):
@@ -164,8 +205,9 @@ class Worker(pygame.sprite.Sprite):
         x = board.get_cell((x, y))[0]
         y = board.get_cell((x, y))[1]
         self.human_board = board.get_board()
-        wave_board = self.to_wave_board(y, x, self.human_board)
+        wave_board = self.to_wave_board(x, y, self.human_board)
         self.human_board = wave_board
+        print(x, y)
 
     def to_wave_board(self, x, y, lab):
         sp = [(x, y)]
@@ -201,6 +243,7 @@ class Worker(pygame.sprite.Sprite):
         return lab
 
     def checkselect(self, posx, posy):
+        print(self.imagename)
         im = Image.open(f"data\\{self.imagename}")
         size = im.size
         return posx >= self.rect.x and posx <= self.rect.x + size[0] and posy >= self.rect.y and posy <= self.rect.y \
@@ -219,6 +262,7 @@ class Worker(pygame.sprite.Sprite):
         self.can_go = True
 
     def direction(self):
+        print(self.cell_posx, self.cell_posy)
         if self.human_board[self.cell_posy][self.cell_posx] == 1:
             self.can_go = False
         for el in self.order_list:
@@ -262,15 +306,34 @@ class Worker(pygame.sprite.Sprite):
 
 
 board = Board(width // tile_size, height // tile_size, tile_size)
+xCam = 0
+yCam = 0
+kCam = 1
 
 def main():
-    map = load_pygame(f'maps/some.tmx')
+    global xCam, yCam, kCam
+    map = load_pygame(f'maps/some1.tmx')
     all_sprites = pygame.sprite.Group()
+    all_human_sprites = pygame.sprite.Group()
+    all_building_sprites = pygame.sprite.Group()
+    all_buttons = pygame.sprite.Group()
+    build_board = pygame.sprite.Group()
+
+    build_board_background = pygame.sprite.Sprite()
+    build_board_background.image = load_image("build_board_background.png")
+    build_board_background.rect = build_board_background.image.get_rect()
+    build_board_background.rect.x, build_board_background.rect.y = 0, 800
+    build_board.add(build_board_background)
+
+    pygame.mixer.init()
+    pygame.mixer.set_reserved(0)
+    game_music = pygame.mixer.Sound("data\\DSG.mp3")  # !!!
+    pygame.mixer.Channel(0).play(game_music, -1)
+
     Worker(1, 1, all_sprites)
+    Worker(1, 2, all_sprites)
+    Build_button(width - 100, height - 100, "build_button.png", all_buttons)
     clock = pygame.time.Clock()
-    xCam = 0
-    yCam = 0
-    kCam = 1
     board_render = False
     running = True
     while running:
@@ -285,6 +348,9 @@ def main():
                         board_render = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
+                    for button in all_buttons:
+                        if button.checkselect(event.pos[0], event.pos[1]):
+                            button.activate(build_board)
                     for sprite in all_sprites:
                         if sprite.checkselect(event.pos[0], event.pos[1]):
                             sprite.select()
@@ -293,10 +359,11 @@ def main():
                 if event.button == 3:
                     for sprite in all_sprites:
                         if sprite.selected:
+                            print(board.get_cell((event.pos[0], event.pos[1])))
                             coords = board.get_cell((event.pos[0], event.pos[1]))
                             if board.get_board()[coords[1]][coords[1]] < 0:
                                 break
-                            sprite.set_board(event.pos[1], event.pos[0])
+                            sprite.set_board(event.pos[0], event.pos[1])
                             sprite.direction()
                             sprite.can_go_true()
             if pygame.key.get_pressed()[pygame.K_a]:
@@ -320,14 +387,17 @@ def main():
                     sprite.rect.y -= 15
                 board.change_margin(-15, 0)
         screen.fill((255, 255, 255))
-        for x in range(width // tile_size):
-            for y in range(height // tile_size):
+        for x in range(100):
+            for y in range(100):
                 image = map.get_tile_image(x, y, 0)
                 screen.blit(image, (int(tile_size * kCam * x + xCam), int(tile_size * kCam * y + yCam)))
         if board_render:
             board.render(screen)
         all_sprites.draw(screen)
+        build_board.draw(screen)
+        all_buttons.draw(screen)
         all_sprites.update()
+
         clock.tick(FPS)  # переделать смену кадров по таймеру
         pygame.display.flip()
     pygame.quit()

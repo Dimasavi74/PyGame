@@ -4,7 +4,6 @@
 # Приближение камеры
 # Изменение размеров тайлов, своя карта
 from Worker import Worker
-import change as change
 import pygame
 import sys
 import os
