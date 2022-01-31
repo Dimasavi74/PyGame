@@ -1,31 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eacc7187-3ccc-4c4a-9dc1-5c8f619eacf6" name="Changes" comment="переделки&#10;баги из за разных картинок&#10;в моём коде начинает как то непраивльно ходит, а так ходит также)">
+    <list default="true" id="eacc7187-3ccc-4c4a-9dc1-5c8f619eacf6" name="Changes" comment="переделки часть 2&#10;человечек всё равно больше тайла надо что-то придумать)&#10;вся анимация переделана под формат 18*36 пикселей">
+      <change afterPath="$PROJECT_DIR$/fuf.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/move_update.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rect.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sravn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk/0.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Down_Walk/0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Down_Walk/1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Down_Walk/2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Down_Walk/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Down_Walk/3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk/0.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Left_Walk/0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Left_Walk/1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Left_Walk/2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Left_Walk/3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Left_Walk/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk/0.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Right_Walk/0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mainfile_Alex.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mainfile_Alex.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mainfile_Dima.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mainfile_Dima.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/Worker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Right_Walk/1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Right_Walk/2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Right_Walk/3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Right_Walk/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk/0.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Up_Walk/0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Up_Walk/1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Up_Walk/2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/Animations/Up_Walk/3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Animations/Up_Walk/4.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,49 +45,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
   </component>
-  <component name="RunManager" selected="Python.Mainfile_Alex">
-    <configuration name="Mainfile (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyGame_new" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../PyGame_1" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../PyGame_1/Mainfile.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Mainfile" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyGame_new" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Mainfile.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.Mainfile_Dima">
     <configuration name="Mainfile_Alex" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyGame_new" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -144,7 +88,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="ex" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Worker" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyGame_new" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -156,7 +100,49 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ex.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Worker.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="fuf" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PyGame_new" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fuf.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="rect" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PyGame_new" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/rect.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -167,11 +153,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Mainfile_Alex" />
         <item itemvalue="Python.Mainfile_Dima" />
-        <item itemvalue="Python.Mainfile" />
-        <item itemvalue="Python.ex" />
-        <item itemvalue="Python.Mainfile (1)" />
+        <item itemvalue="Python.fuf" />
+        <item itemvalue="Python.Mainfile_Alex" />
+        <item itemvalue="Python.Worker" />
+        <item itemvalue="Python.rect" />
       </list>
     </recent_temporary>
   </component>
@@ -191,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643388272215</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="переделки часть 2&#10;человечек всё равно больше тайла надо что-то придумать)&#10;вся анимация переделана под формат 18*36 пикселей">
+      <created>1643389110080</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1643389110080</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -219,6 +212,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="переделки&#10;баги из за разных картинок&#10;в моём коде начинает как то непраивльно ходит, а так ходит также)" />
-    <option name="LAST_COMMIT_MESSAGE" value="переделки&#10;баги из за разных картинок&#10;в моём коде начинает как то непраивльно ходит, а так ходит также)" />
+    <MESSAGE value="переделки часть 2&#10;человечек всё равно больше тайла надо что-то придумать)&#10;вся анимация переделана под формат 18*36 пикселей" />
+    <option name="LAST_COMMIT_MESSAGE" value="переделки часть 2&#10;человечек всё равно больше тайла надо что-то придумать)&#10;вся анимация переделана под формат 18*36 пикселей" />
   </component>
 </project>
