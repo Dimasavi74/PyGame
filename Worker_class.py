@@ -2,7 +2,7 @@ import pygame
 import sys
 import os
 
-from const import TILE_SIZE as tile_size, FPS, WIDTH as width, HEIGHT as height, BOARD as board,\
+from const import TILE_SIZE as tile_size, FPS, WIDTH as width, HEIGHT as height, BOARD as board, \
     XCAM as xCam, YCAM as yCam, KCAM as kCam, SPEED as Speed
 
 
@@ -45,8 +45,8 @@ class Worker(pygame.sprite.Sprite):
                     self.steps1.index(self.image)
                 except Exception:
                     self.image = Worker.steps1[0]
-                if Speed // FPS + self.rect.x >= tile_size * self.cell_posx + tile_size // 2 + xCam:
-                    self.rect.x = tile_size * self.cell_posx + tile_size // 2 + xCam
+                if Speed // FPS + self.rect.x >= tile_size * self.cell_posx + xCam:
+                    self.rect.x = tile_size * self.cell_posx + xCam
                     self.cell_posx += 1
                     self.direction()
                 self.rect = self.rect.move(Speed // FPS, 0)
@@ -134,9 +134,6 @@ class Worker(pygame.sprite.Sprite):
 
     def select(self):
         self.selected = True
-
-    def selected(self):
-        return self.selected
 
     def set_rotation(self, x):
         self.rotation = x

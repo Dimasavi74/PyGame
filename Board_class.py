@@ -6,10 +6,18 @@ class Board:
     def __init__(self, size, Bsize, top=0, left=0):
         self.width = Bsize * size
         self.height = Bsize * size
-        self.board = [[0] * Bsize for _ in range(Bsize)]
+        if Bsize % 2 != 0:
+            Bsize -= 1
+        # поле имеет всегда нечётное количество ячеек
+        self.board = self.pole(Bsize)
         self.left = left
         self.top = top
         self.cell_size = size
+
+    def pole(self, val):
+        a = val // 2
+        # отмечаю тройками ратушу по середине с размером 3 на 3
+        return [[0] * (a - 1) + [-3] * 3 + [0] * (a - 1) if a + 2 > _ > a - 2 else [0] * val for _ in range(val)]
 
     def set_view(self, left, top, cell_size):
         self.left = left

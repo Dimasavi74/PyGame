@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eacc7187-3ccc-4c4a-9dc1-5c8f619eacf6" name="Changes" comment="переделки часть 2&#10;человечек всё равно больше тайла надо что-то придумать)&#10;вся анимация переделана под формат 18*36 пикселей">
-      <change afterPath="$PROJECT_DIR$/.idea/PyGame_end.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Board_class.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Enemy_class.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/any_fails/prov.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/const.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="eacc7187-3ccc-4c4a-9dc1-5c8f619eacf6" name="Changes" comment="Изменения:&#10;изменена структура (классы разбиты по отдельным файлам + файл const с константами, где одна из них board)&#10;в классе Board изменен get_coords and add set_centre для установки по центру, однако придется передавать в get_coords ещё один кортеж с размерами&#10;улучшены некоторые методы (checkselect например)&#10;добавлен эксперементальный класс enemy">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mainfile_Alex.py" beforeDir="false" afterPath="$PROJECT_DIR$/any_fails/Mainfile_Alex.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Board_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/Board_class.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enemy_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/Enemy_class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Mainfile_Dima.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mainfile_Dima.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wave2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WaveCell.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Worker.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex.py" beforeDir="false" afterPath="$PROJECT_DIR$/Worker_class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fuf.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/land1.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/maps/land1.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/move_update.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rect.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sravn.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/взрыв.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Worker_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/Worker_class.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/any_fails/prov.py" beforeDir="false" afterPath="$PROJECT_DIR$/any_fails/prov.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const.py" beforeDir="false" afterPath="$PROJECT_DIR$/const.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +45,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
   </component>
-  <component name="RunManager" selected="Python.Enemy_class">
+  <component name="RunManager" selected="Python.Mainfile_Dima">
     <configuration name="Enemy_class" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyGame_end" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -71,27 +59,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Enemy_class.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Mainfile" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyGame_new" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Mainfile.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -142,6 +109,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Worker_class" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PyGame_end" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Worker_class.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="PyGame_end" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -163,19 +151,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="ex" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyGame_new" />
+    <configuration name="prov" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PyGame_end" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/any_fails" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ex.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/any_fails/prov.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -261,11 +249,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Enemy_class" />
         <item itemvalue="Python.Mainfile_Dima" />
+        <item itemvalue="Python.Worker_class" />
+        <item itemvalue="Python.prov" />
+        <item itemvalue="Python.Enemy_class" />
         <item itemvalue="Python.Mainfile_Alex" />
-        <item itemvalue="Python.Mainfile" />
-        <item itemvalue="Python.ex" />
       </list>
     </recent_temporary>
   </component>
@@ -285,7 +273,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643388272215</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Изменения:&#10;изменена структура (классы разбиты по отдельным файлам + файл const с константами, где одна из них board)&#10;в классе Board изменен get_coords and add set_centre для установки по центру, однако придется передавать в get_coords ещё один кортеж с размерами&#10;улучшены некоторые методы (checkselect например)&#10;добавлен эксперементальный класс enemy">
+      <created>1643874614058</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1643874614058</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -313,6 +308,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="переделки&#10;баги из за разных картинок&#10;в моём коде начинает как то непраивльно ходит, а так ходит также)" />
-    <option name="LAST_COMMIT_MESSAGE" value="переделки&#10;баги из за разных картинок&#10;в моём коде начинает как то непраивльно ходит, а так ходит также)" />
+    <MESSAGE value="Изменения:&#10;изменена структура (классы разбиты по отдельным файлам + файл const с константами, где одна из них board)&#10;в классе Board изменен get_coords and add set_centre для установки по центру, однако придется передавать в get_coords ещё один кортеж с размерами&#10;улучшены некоторые методы (checkselect например)&#10;добавлен эксперементальный класс enemy" />
+    <option name="LAST_COMMIT_MESSAGE" value="Изменения:&#10;изменена структура (классы разбиты по отдельным файлам + файл const с константами, где одна из них board)&#10;в классе Board изменен get_coords and add set_centre для установки по центру, однако придется передавать в get_coords ещё один кортеж с размерами&#10;улучшены некоторые методы (checkselect например)&#10;добавлен эксперементальный класс enemy" />
   </component>
 </project>

@@ -9,6 +9,7 @@ import os
 from random import *
 from pytmx import *
 import copy
+from Enemy_class import Destroyer
 from Worker_class import Worker, load_image
 from const import TILE_SIZE as tile_size, FPS, WIDTH as width, HEIGHT as height, BOARD as board, \
     XCAM as xCam, YCAM as yCam, KCAM as kCam
@@ -16,6 +17,7 @@ from const import TILE_SIZE as tile_size, FPS, WIDTH as width, HEIGHT as height,
 pygame.init()
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Adventure strategy")
+
 
 
 class Button(pygame.sprite.Sprite):
