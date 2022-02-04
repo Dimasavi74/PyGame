@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eacc7187-3ccc-4c4a-9dc1-5c8f619eacf6" name="Changes" comment="111">
-      <change beforePath="$PROJECT_DIR$/.idea/PyGame_end.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PyGame_end.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Mainfile_Dima.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mainfile_Dima.py" afterDir="false" />
     </list>
@@ -62,19 +60,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Mainfile_Alex" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyGame_new" />
+    <configuration name="Mainfile_Dima (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PyGame_end" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../AdvancedStrategyGame/PyGame_end" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Mainfile_Alex.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../AdvancedStrategyGame/PyGame_end/Mainfile_Dima.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -149,10 +147,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.Mainfile_Dima" />
+        <item itemvalue="Python.Mainfile_Dima (1)" />
         <item itemvalue="Python.Test2" />
         <item itemvalue="Python.Arrow" />
         <item itemvalue="Python.fuf" />
-        <item itemvalue="Python.Mainfile_Alex" />
       </list>
     </recent_temporary>
   </component>
@@ -193,7 +191,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643966376888</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="12312312">
+      <created>1643977607312</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1643977607312</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -202,6 +207,11 @@
         <entry key="MAIN">
           <value>
             <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
               <option name="FILTERS">
                 <map>
                   <entry key="branch">
@@ -224,6 +234,7 @@
     <MESSAGE value="переделки&#10;баги из за разных картинок&#10;в моём коде начинает как то непраивльно ходит, а так ходит также)" />
     <MESSAGE value="переделки часть 2&#10;человечек всё равно больше тайла надо что-то придумать)&#10;вся анимация переделана под формат 18*36 пикселей" />
     <MESSAGE value="111" />
-    <option name="LAST_COMMIT_MESSAGE" value="111" />
+    <MESSAGE value="12312312" />
+    <option name="LAST_COMMIT_MESSAGE" value="12312312" />
   </component>
 </project>

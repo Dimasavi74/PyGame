@@ -16,7 +16,7 @@ import pygame_gui
 pygame.init()
 tile_size = 20
 FPS = 30
-Speed = 100
+Speed = 150
 Bsize = 100
 size = width, height = 1200, 800
 xCam = 0
@@ -507,7 +507,7 @@ board = Board(width // tile_size, height // tile_size, tile_size)
 def main():
     global xCam, yCam, kCam, reset_build_menu, all_sprites, all_human_sprites, all_buildings, all_buttons, \
         build_board, mini_buildings, buildng_name_right_now, building_mode, building_strengths, \
-        all_texts, townHallTexts, show_townhall_menu, houseMenuBackgrounds
+        all_texts, townHallTexts, show_townhall_menu, houseMenuBackgrounds, stone, wood, food, iron
 
     map = load_pygame(f'maps/some1.tmx')
     pygame.mouse.set_visible(False)
@@ -554,6 +554,19 @@ def main():
     houseMenuBackground.rect = houseMenuBackground.image.get_rect()
     houseMenuBackground.rect.x, houseMenuBackground.rect.y = 1200, 0
     houseMenuBackgrounds.add(houseMenuBackground)
+    resourse_texts = []
+
+    woodText = StandardFont1.render(f'Дерево: {int(wood)}', True, (0, 0, 0))
+    resourse_texts.append(woodText)
+
+    stoneText = StandardFont1.render(f'Камень: {int(stone)}', True, (0, 0, 0))
+    resourse_texts.append(stoneText)
+
+    foodText = StandardFont1.render(f'Еда: {int(food)}', True, (0, 0, 0))
+    resourse_texts.append(foodText)
+
+    ironText = StandardFont1.render(f'Железо: {int(iron)}', True, (0, 0, 0))
+    resourse_texts.append(ironText)
 
     townHallStrengthText = StandardFont1.render(f'Прочность: {building_strengths["townhall"]}', True, (0, 0, 0))
     all_texts.append(townHallStrengthText)
@@ -575,8 +588,8 @@ def main():
     all_texts.append(townHallWorkerAmount)
     townHallTexts.append(townHallWorkerAmount)
 
-    w1 = Worker(1, 1, all_sprites)
-    w2 = Worker(1, 2, all_sprites)
+    w1 = Worker(10, 10, all_sprites)
+    w2 = Worker(10, 15, all_sprites)
     all_human_sprites.add(w1)
     all_human_sprites.add(w2)
     build_button = Build_button(width - 100, height - 100, "build_button.png", all_buttons)
@@ -628,6 +641,11 @@ def main():
                         if building_mode and button.name == "Build_house_button" and buildng_name_right_now == button.buildingName:
                             if can_build(board.get_cell((event.pos[0], event.pos[1]))[0],
                                          board.get_cell((event.pos[0], event.pos[1]))[1], buildng_name_right_now):
+                                need_resources = building_costs[button.buildingName]
+                                stone -= need_resources[0]
+                                wood -= need_resources[1]
+                                food -= need_resources[2]
+                                iron -= need_resources[3]
                                 bip = Building_in_process(board.get_cell((event.pos[0], event.pos[1]))[0],
                                                     board.get_cell((event.pos[0], event.pos[1]))[1],
                                                     f"{button.buildingName}.png",
@@ -688,6 +706,7 @@ def main():
                     sprite.rect.y -= 15
                 board.change_margin(-15, 0)
         screen.fill((255, 255, 255))
+        all_buildings.update()
         for x in range(100):
             for y in range(100):
                 image = map.get_tile_image(x, y, 0)
@@ -709,17 +728,32 @@ def main():
             for el in townHallTexts:
                 screen.blit(el, (1005, 50 * townHallTexts.index(el)))
 
+        resourse_texts = []
+
+        woodText = StandardFont1.render(f'Дерево: {int(wood)}', True, (0, 0, 0))
+        resourse_texts.append(woodText)
+
+        stoneText = StandardFont1.render(f'Камень: {int(stone)}', True, (0, 0, 0))
+        resourse_texts.append(stoneText)
+
+        foodText = StandardFont1.render(f'Еда: {int(food)}', True, (0, 0, 0))
+        resourse_texts.append(foodText)
+
+        ironText = StandardFont1.render(f'Железо: {int(iron)}', True, (0, 0, 0))
+        resourse_texts.append(ironText)
         manager.update(clock.tick(FPS))
         manager.draw_ui(screen)
         build_board.draw(screen)
         all_buttons.draw(screen)
         mini_buildings.draw(screen)
+        for el in range(len(resourse_texts)):
+            screen.blit(resourse_texts[el], (5, 0 + 20 * el))
         screen.blit(mouse.image, mouse.rect)
         clock.tick(FPS)  # переделать смену кадров по таймеру
         if sg_x <= 0:
             while sg_x < 0:
                 if sg_x < 0:
-                    sg_x += 200 / FPS
+                    sg_x += 500 / FPS
                 if sg_x > 0:
                     sg_x = 0
                 startGame.rect.x = sg_x
