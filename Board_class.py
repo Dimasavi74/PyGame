@@ -17,7 +17,7 @@ class Board:
     def pole(self, val):
         a = val // 2
         # отмечаю тройками ратушу по середине с размером 3 на 3
-        return [[0] * (a - 1) + [-3] * 3 + [0] * (a - 1) if a + 2 > _ > a - 2 else [0] * val for _ in range(val)]
+        return [[0] * (a - 1) + [-4] * 3 + [0] * (a - 1) if a + 2 > _ > a - 2 else [0] * val for _ in range(val)]
 
     def set_view(self, left, top, cell_size):
         self.left = left
@@ -29,9 +29,8 @@ class Board:
 
     def render(self, screen):
         for i in range(len(self.board)):
-            y = self.board[i]
-            for j in range(len(y)):
-                if y[j] == 0:
+            for j in range(len(self.board)):
+                if self.board[i][j] > -4:
                     pygame.draw.rect(screen, 'white', (
                         (self.left + j * self.cell_size, self.top + i * self.cell_size),
                         (self.cell_size, self.cell_size)), 1)
@@ -50,7 +49,7 @@ class Board:
     def set_centre(self, size):
         if self.cell_size >= size:
             return (self.cell_size - size) // 2
-        return -((size - self.cell_size) + 2)
+        return -(size - self.cell_size + 2)
 
     def change_margin(self, top, left):
         self.top += top

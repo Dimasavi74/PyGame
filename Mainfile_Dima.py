@@ -11,13 +11,11 @@ from pytmx import *
 import copy
 from Enemy_class import Destroyer
 from Worker_class import Worker, load_image
-from const import TILE_SIZE as tile_size, FPS, WIDTH as width, HEIGHT as height, BOARD as board, \
-    XCAM as xCam, YCAM as yCam, KCAM as kCam
+from const import TILE_SIZE as tile_size, FPS, WIDTH as width, HEIGHT as height, BOARD as board, xCam, yCam, kCam
 
 pygame.init()
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Adventure strategy")
-
 
 
 class Button(pygame.sprite.Sprite):
@@ -61,8 +59,8 @@ class Building(pygame.sprite.Sprite):
 def main():
     global xCam, yCam, kCam
     map = load_pygame(f'maps/some1.tmx')
-    all_sprites = pygame.sprite.Group()
-    all_human_sprites = pygame.sprite.Group()
+    all_enemy_sprites = pygame.sprite.Group()
+    all_worker_sprites = pygame.sprite.Group()
     all_building_sprites = pygame.sprite.Group()
     all_buttons = pygame.sprite.Group()
     build_board = pygame.sprite.Group()
@@ -72,15 +70,16 @@ def main():
     build_board_background.rect = build_board_background.image.get_rect()
     build_board_background.rect.x, build_board_background.rect.y = 0, 800
     build_board.add(build_board_background)
-
+    #all_sprites = (,)
     # слегка надоедает)
     '''pygame.mixer.init()
     pygame.mixer.set_reserved(0)
     game_music = pygame.mixer.Sound("data\\DSG.mp3")
     pygame.mixer.Channel(0).play(game_music, -1)'''
-
-    Worker(1, 1, all_sprites)
-    Worker(1, 2, all_sprites)
+    all_sprites = (all_worker_sprites, all_enemy_sprites)
+    Worker(5, 5, all_worker_sprites)
+    Worker(5, 6, all_worker_sprites)
+    #Destroyer(0, 0, all_enemy_sprites)
     Build_button(width - 100, height - 100, "build_button.png", all_buttons)
     clock = pygame.time.Clock()
     board_render = False
@@ -91,24 +90,20 @@ def main():
                 running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_c:
-                    if board_render:
-                        board_render = False
-                    else:
-                        board_render = True
+                    board_render = not board_render
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     for button in all_buttons:
                         if button.checkselect(event.pos[0], event.pos[1]):
                             button.activate(build_board)
-                    for sprite in all_sprites:
+                    for sprite in all_worker_sprites:
                         if sprite.checkselect(event.pos[0], event.pos[1]):
                             sprite.select()
                             continue
                         sprite.delselect()
                 if event.button == 3:
-                    for sprite in all_sprites:
+                    for sprite in all_worker_sprites:
                         if sprite.selected:
-                            print(board.get_cell((event.pos[0], event.pos[1])))
                             coords = board.get_cell((event.pos[0], event.pos[1]))
                             if board.get_board()[coords[1]][coords[1]] < 0:
                                 break
@@ -116,25 +111,33 @@ def main():
                             sprite.direction()
                             sprite.can_go_true()
             if pygame.key.get_pressed()[pygame.K_a]:
-                xCam += 15
-                for sprite in all_sprites:
-                    sprite.rect.x += 15
-                board.change_margin(0, 15)
+                if xCam + 20 <= 0:
+                    xCam += 20
+                    for group in all_sprites:
+                        for sprite in group:
+                            sprite.rect.x += 20
+                    board.change_margin(0, 20)
             if pygame.key.get_pressed()[pygame.K_d]:
-                xCam -= 15
-                for sprite in all_sprites:
-                    sprite.rect.x -= 15
-                board.change_margin(0, -15)
+                if xCam - 20 >= -800:
+                    xCam -= 20
+                    for group in all_sprites:
+                        for sprite in group:
+                            sprite.rect.x -= 20
+                    board.change_margin(0, -20)
             if pygame.key.get_pressed()[pygame.K_w]:
-                yCam += 15
-                for sprite in all_sprites:
-                    sprite.rect.y += 15
-                board.change_margin(15, 0)
+                if yCam + 20 <= 0:
+                    yCam += 20
+                    for group in all_sprites:
+                        for sprite in group:
+                            sprite.rect.y += 20
+                    board.change_margin(20, 0)
             if pygame.key.get_pressed()[pygame.K_s]:
-                yCam -= 15
-                for sprite in all_sprites:
-                    sprite.rect.y -= 15
-                board.change_margin(-15, 0)
+                if yCam - 20 >= -800:
+                    yCam -= 20
+                    for group in all_sprites:
+                        for sprite in group:
+                            sprite.rect.y -= 20
+                    board.change_margin(-20, 0)
         screen.fill((255, 255, 255))
         for x in range(100):
             for y in range(100):
@@ -142,11 +145,12 @@ def main():
                 screen.blit(image, (int(tile_size * kCam * x + xCam), int(tile_size * kCam * y + yCam)))
         if board_render:
             board.render(screen)
-        all_sprites.draw(screen)
+        for group in all_sprites:
+            group.draw(screen)
         build_board.draw(screen)
         all_buttons.draw(screen)
-        all_sprites.update()
-
+        all_enemy_sprites.update(xCam, yCam)
+        all_worker_sprites.update(xCam, yCam)
         clock.tick(FPS)  # переделать смену кадров по таймеру
         pygame.display.flip()
     pygame.quit()

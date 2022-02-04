@@ -2,8 +2,8 @@ import pygame
 import sys
 import os
 
-from const import TILE_SIZE as tile_size, FPS, WIDTH as width, HEIGHT as height, BOARD as board, \
-    XCAM as xCam, YCAM as yCam, KCAM as kCam, SPEED as Speed
+from const import TILE_SIZE as tile_size, FPS, WIDTH as width, HEIGHT as height, BOARD as board, SPEED as Speed,\
+    xCam, yCam, kCam
 
 
 def load_image(name):
@@ -24,6 +24,11 @@ class Worker(pygame.sprite.Sprite):
 
     def __init__(self, x, y, *group):
         super().__init__(*group)
+        ##############################
+        self.hp = 100
+        self.hit = 8
+        self.protect = 0
+        ##############################
         self.board = board
         self.image = Worker.steps3[0]
         self.human_board = board
@@ -36,19 +41,22 @@ class Worker(pygame.sprite.Sprite):
         self.rect.x, self.rect.y = board.get_coords((x, y), (self.rect[2], self.rect[3]))
         self.cell_posx = x
         self.cell_posy = y
-        self.order_list = [1, 2, 3, 4]
+        self.order_list = [(0, 1, "Right_Walk"), (0, -1, "Left_Walk"), (-1, 0, "Up_Walk"), (1, 0, "Down_Walk")]
+        # self.order_list = [1, 2, 3, 4]
 
-    def update(self):
+    def update(self, xCam, yCam):
         if self.can_go:
             if self.rotation == "Right_Walk":
                 try:
                     self.steps1.index(self.image)
                 except Exception:
                     self.image = Worker.steps1[0]
-                if Speed // FPS + self.rect.x >= tile_size * self.cell_posx + xCam:
-                    self.rect.x = tile_size * self.cell_posx + xCam
+                ma = tile_size * (self.cell_posx + 1) + xCam + self.set_centre(self.rect[2])
+                if Speed // FPS + self.rect.x >= ma:
+                    self.rect.x = ma
                     self.cell_posx += 1
                     self.direction()
+                    return None
                 self.rect = self.rect.move(Speed // FPS, 0)
                 self.image = self.steps1[(self.steps1.index(self.image) + 1) % 4]
                 self.imagename = f"Animations\\Right_Walk\\{(self.steps1.index(self.image))}.png"
@@ -57,10 +65,12 @@ class Worker(pygame.sprite.Sprite):
                     self.steps2.index(self.image)
                 except Exception:
                     self.image = Worker.steps2[0]
-                if Speed // FPS + self.rect.x <= tile_size * self.cell_posx - tile_size // 2 + xCam:
-                    self.rect.x = tile_size * self.cell_posx - tile_size // 2 + xCam
+                ma = tile_size * (self.cell_posx - 1) + xCam + self.set_centre(self.rect[2])
+                if self.rect.x - Speed // FPS <= ma:
+                    self.rect.x = ma
                     self.cell_posx -= 1
                     self.direction()
+                    return None
                 self.rect = self.rect.move(-Speed // FPS, 0)
                 self.imagename = f"Animations\\Left_Walk\\{(self.steps2.index(self.image))}.png"
                 self.image = self.steps2[(self.steps2.index(self.image) + 1) % 4]
@@ -69,10 +79,12 @@ class Worker(pygame.sprite.Sprite):
                     self.steps3.index(self.image)
                 except Exception:
                     self.image = Worker.steps3[0]
-                if Speed // FPS + self.rect.y <= tile_size * self.cell_posy - tile_size // 2 + yCam:
-                    self.rect.y = tile_size * self.cell_posy - tile_size // 2 + yCam
+                ma = tile_size * (self.cell_posy - 1) + self.set_centre(self.rect[3]) + yCam
+                if self.rect.y - Speed // FPS <= ma:
+                    self.rect.y = ma
                     self.cell_posy -= 1
                     self.direction()
+                    return None
                 self.rect = self.rect.move(0, -Speed // FPS)
                 self.imagename = f"Animations\\Up_Walk\\{(self.steps3.index(self.image))}.png"
                 self.image = self.steps3[(self.steps3.index(self.image) + 1) % 4]
@@ -81,13 +93,20 @@ class Worker(pygame.sprite.Sprite):
                     self.steps4.index(self.image)
                 except Exception:
                     self.image = Worker.steps4[0]
-                if Speed // FPS + self.rect.y >= tile_size * self.cell_posy + tile_size // 2 + yCam:
-                    self.rect.y = tile_size * self.cell_posy + tile_size // 2 + yCam
+                ma = tile_size * (self.cell_posy + 1) + self.set_centre(self.rect[3]) + yCam
+                if self.rect.y + Speed // FPS >= ma:
+                    self.rect.y = ma
                     self.cell_posy += 1
                     self.direction()
+                    return None
                 self.rect = self.rect.move(0, Speed // FPS)
                 self.imagename = f"Animations\\Down_Walk\\{(self.steps4.index(self.image))}.png"
                 self.image = self.steps4[(self.steps4.index(self.image) + 1) % 4]
+
+    def set_centre(self, size):
+        if tile_size >= size:
+            return (tile_size - size) // 2
+        return -((size - tile_size) + 2)
 
     def delselect(self):
         self.selected = False
@@ -144,44 +163,15 @@ class Worker(pygame.sprite.Sprite):
     def direction(self):
         if self.human_board[self.cell_posy][self.cell_posx] == 1:
             self.can_go = False
-        for el in self.order_list:
-            if el == 1:
-                try:
-                    if self.human_board[self.cell_posy][self.cell_posx + 1] < self.human_board[self.cell_posy][
-                        self.cell_posx] and self.human_board[self.cell_posy][self.cell_posx + 1] > 0:
-                        self.rotation = "Right_Walk"
-                        self.order_list.remove(1)
-                        self.order_list.append(1)
-                        break
-                except Exception:
-                    pass
-            if el == 2:
-                try:
-                    if self.human_board[self.cell_posy][self.cell_posx - 1] < self.human_board[self.cell_posy][
-                        self.cell_posx] and self.human_board[self.cell_posy][self.cell_posx - 1] > 0:
-                        self.rotation = "Left_Walk"
-                        self.order_list.remove(2)
-                        self.order_list.append(2)
-                        break
-                except Exception:
-                    pass
-            if el == 3:
-                try:
-                    if self.human_board[self.cell_posy - 1][self.cell_posx] < self.human_board[self.cell_posy][
-                        self.cell_posx] and self.human_board[self.cell_posy - 1][self.cell_posx] > 0:
-                        self.rotation = "Up_Walk"
-                        self.order_list.remove(3)
-                        self.order_list.append(3)
-                        break
-                except Exception:
-                    pass
-            if el == 4:
-                try:
-                    if self.human_board[self.cell_posy + 1][self.cell_posx] < self.human_board[self.cell_posy][
-                        self.cell_posx] and self.human_board[self.cell_posy + 1][self.cell_posx] > 0:
-                        self.rotation = "Down_Walk"
-                        self.order_list.remove(4)
-                        self.order_list.append(4)
-                        break
-                except Exception:
-                    pass
+            return None
+        for i, j, rot in self.order_list:
+            cur = self.human_board[self.cell_posy][self.cell_posx]
+            new = self.human_board[self.cell_posy + i][self.cell_posx + j]
+            if cur > new > 0:
+                self.rotation = rot
+                self.order_list.remove((i, j, rot))
+                self.order_list.append((i, j, rot))
+                break
+        board.board[self.cell_posy][self.cell_posx] = 0
+        i, j = {"Right_Walk": (0,1), "Left_Walk": (0,-1), "Up_Walk": (-1,0), "Down_Walk": (1,0)}[self.rotation]
+        board.board[self.cell_posy + i][self.cell_posx + j] = -1
