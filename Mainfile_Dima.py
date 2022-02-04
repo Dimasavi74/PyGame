@@ -525,6 +525,15 @@ def main():
     eg = pygame.sprite.Group()
     eg.add(endGame)
 
+    startGame = pygame.sprite.Sprite()
+    startGame.image = load_image("gamestart.png")
+    startGame.rect = endGame.image.get_rect()
+    startGame.rect.x, startGame.rect.y = -1250, 0
+    sg_x = -1250
+    sg_y = 0
+    sg = pygame.sprite.Group()
+    sg.add(startGame)
+
     build_board_background = pygame.sprite.Sprite()
     build_board_background.image = load_image("build_board_background.png")
     build_board_background.rect = build_board_background.image.get_rect()
@@ -707,6 +716,17 @@ def main():
         mini_buildings.draw(screen)
         screen.blit(mouse.image, mouse.rect)
         clock.tick(FPS)  # переделать смену кадров по таймеру
+        if sg_x <= 0:
+            while sg_x < 0:
+                if sg_x < 0:
+                    sg_x += 200 / FPS
+                if sg_x > 0:
+                    sg_x = 0
+                startGame.rect.x = sg_x
+                startGame.rect.y = sg_y
+                sg.draw(screen)
+                clock.tick(FPS)
+                pygame.display.flip()
         if townhall_strength <= 0:
             while eg_x < 0:
                 if eg_x < 0:
